@@ -1,5 +1,6 @@
 package com.homeinventory.homeinventory.service.impl;
 
+import com.homeinventory.homeinventory.exception.ProductNotFoundException;
 import com.homeinventory.homeinventory.model.Product;
 import com.homeinventory.homeinventory.repository.ProductRepository;
 import com.homeinventory.homeinventory.service.ProductService;
@@ -30,12 +31,18 @@ public class ProductServiceImplementation implements ProductService {
 
     @Override
     public String deleteProduct(String productId) {
+        if(productRepository.findById(productId).isEmpty()) {
+            throw new ProductNotFoundException("Requested product does not exist");
+        }
         productRepository.deleteById(productId);
         return "Success";
     }
 
     @Override
     public Product getProduct(String productId) {
+        if(productRepository.findById(productId).isEmpty()) {
+            throw new ProductNotFoundException("Requested product does not exist");
+        }
         return productRepository.findById(productId).get();
     }
 

@@ -1,7 +1,10 @@
 package com.homeinventory.homeinventory.controller;
 
 import com.homeinventory.homeinventory.model.Product;
+import com.homeinventory.homeinventory.response.ResponseHandler;
 import com.homeinventory.homeinventory.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +20,9 @@ public class ProductController {
     }
 
     @GetMapping("{productId}")
-    public Product getProductDetails(@PathVariable("productId") String productId) {
-        return productService.getProduct(productId);
+    public ResponseEntity<Object> getProductDetails(@PathVariable("productId") String productId) {
+        return ResponseHandler.responseBuilder("Requested Product Details are given",
+                HttpStatus.OK, productService.getProduct(productId));
     }
 
     @GetMapping()
